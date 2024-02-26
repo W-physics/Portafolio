@@ -1,12 +1,29 @@
 import numpy as np
 from PIL import Image
-imp ort os
+from torch import nn
+import torch.nn.functional as F
+from torch.optim import SGD
+import os
 
 class Model:
-     def train():
+     def predict():
           pass
-     def predict(filepath):
-          pass
+
+class Image_recognition(nn.Module):
+     #Generating the architecture of the network
+     def __init__(self, in_features = 28*28, h1 = 512, h2 = 512, h3 = 512, out_features = 5):
+          super().__init__()
+          self.fc1 = nn.Linear(in_features, h1)
+          self.fc2 = nn.Linear(h1, h2)
+          self.fc3 = nn.Linear(h2, h3)
+          self.out = nn.Linear(h3, out_features)    
+     #Move forward in the network
+     def forward(self, input_data):
+          data = F.relu(self.fc1(input_data))
+          data = F.relu(self.fc2(data))
+          data = F.relu(self.fc3(data))
+          output_data = self.out(data)
+          return output_data
 
 #Convert image to an array of neurons
      
@@ -22,22 +39,4 @@ def bitmap(image_path):
 
     return initial_neurons
 
-def random_weights(initial_neurons, horizontal_depht, vertical_depht, final_depht = 5):
-     
-     neurons = initial_neurons
-     weights = np.random.rand((0,vertical_depht,len(neurons)))
-     bias = np.random.rand((0,vertical_depht))
-
-     for i in range(0,len(horizontal_depht))
-
-          nn_neurons = weights[i] @ neurons + bias[i]
-          neurons = nn_neurons / np.sum(nn_neurons)
-
-          if i != horizontal_depht:
-               np.append(weights, np.random.rand((vertical_depht,vertical_depht)))
-               np.append(bias, np.random.rand((vertical_depht)))
-          else:
-               np.append(weights, np.random.rand((final_depht,vertical_depht)))
-               np.append(bias, np.random.rand(final_depht))
-
-     return (weights, bias)
+model = Image_recognition()
