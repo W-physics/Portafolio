@@ -1,3 +1,3 @@
 Submission [Titanic - Machine Learning from disaster](https://www.kaggle.com/competitions/titanic) kaggle challenge.
 
-Scored 0.73
+Scored 0.76
