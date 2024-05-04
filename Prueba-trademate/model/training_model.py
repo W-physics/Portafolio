@@ -21,6 +21,8 @@ def training_model(X_train, y_train):
 
     return best_estimator
 
+# Put 1 (buy) if the price is higher, 0 (sell) other way
+
 def label_data():
 
     data = pd.read_csv('/home/cod3_breaker/portafolio/Prueba-trademate/data.csv')
