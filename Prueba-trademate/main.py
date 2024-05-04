@@ -3,11 +3,12 @@ import json
 import websocket
 
 from model import training_model
+from model import splitting
 from model import preprocessing
 
 def main():
 
-    X_train, X_test, y_train, y_test = preprocessing()
+    X_train, X_test, y_train, y_test = splitting()
 
     model = training_model(X_train, y_train)
 
@@ -24,13 +25,24 @@ def main():
 
         if is_candle_closed:
 
+            #Conver to float
+
             close = close.astype(float)
-            order = model.predict(close, high.astype(float), low.astype(float))
+            high = high.astype(float)
+            low = low.astype(float)
+
+            X_predict = preprocessing([close, high, low])
+
+            order = model.predict(X_predict)
 
             if order == 0: 
-                make_order('SELL', str(close - 50))
+                price = close - 50
+                make_order('SELL', str(price))
+                print(f'Sold at : {price}')
             else:
-                make_order('BUY', str(close + 50))
+                price = close + 50
+                make_order('BUY', str(price))
+                print(f'Bought at : {price}')
                 
     def on_close(ws):
         print('Conection Closed')
@@ -63,3 +75,5 @@ def make_order(order, price):
                'timeInForce': 'GTC'}
 
     client.new_order_test(**order_limit)
+
+main()

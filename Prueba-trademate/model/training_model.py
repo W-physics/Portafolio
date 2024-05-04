@@ -38,12 +38,19 @@ def label_data():
 
 #Standarization and split of the data
 
-def preprocessing():
+def preprocessing(data):
 
     pipeline = Pipeline([('std_scaler', StandardScaler())])
 
-    data, y = label_data()
     X = pipeline.fit_transform(data)
+
+    return X
+
+def splitting():
+
+    data, y = label_data()
+    
+    X = preprocessing(data)
 
     X_train, X_test, y_train, y_test = train_test_split(X, y)
 
@@ -53,10 +60,8 @@ def preprocessing():
 
 def best_score():
 
-    X_train, X_test, y_train, y_test = preprocessing()
+    X_train, X_test, y_train, y_test = splitting()
 
     model = training_model(X_train, y_train)
 
     print(model.score(X_test, y_test))
-
-best_score()
