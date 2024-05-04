@@ -7,6 +7,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.svm import LinearSVC
 from sklearn.model_selection import GridSearchCV
 
+#Return the ML model in a scikit-learn object
+
 def training_model(X_train, y_train):
     
     svm_clf = LinearSVC(dual='auto')
@@ -41,8 +43,11 @@ def label_data():
 def preprocessing(data):
 
     pipeline = Pipeline([('std_scaler', StandardScaler())])
-
-    X = pipeline.fit_transform(data)
+    
+    try:
+        X = pipeline.fit_transform(data)
+    except ValueError:
+        X = pipeline.fit_transform(np.reshape(data, (1,-1)))
 
     return X
 
