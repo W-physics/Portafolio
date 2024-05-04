@@ -39,4 +39,5 @@ def generate_data():
     #make a csv file with the data
 
     data = pd.DataFrame({'Closes':closes,'Highs':highs, 'Lows':lows}).astype(float)
-    data.to_csv('data.csv', index=False)
+    data.to_csv('/home/cod3_breaker/portafolio/Prueba-trademate/data.csv',
+                 index=False)

@@ -7,9 +7,23 @@ from sklearn.model_selection import train_test_split
 from sklearn.svm import LinearSVC
 from sklearn.model_selection import GridSearchCV
 
+def training_model(X_train, y_train):
+    
+    svm_clf = LinearSVC(dual='auto')
+
+    params = dict(C=np.arange(1,10))
+
+    grid_search = GridSearchCV(svm_clf, params, cv=3, scoring='accuracy')
+    grid_search.fit(X_train, y_train)
+    best_estimator = grid_search.best_estimator_
+
+    best_estimator.fit(X_train, y_train)
+
+    return best_estimator
+
 def label_data():
 
-    data = pd.read_csv('data.csv')
+    data = pd.read_csv('/home/cod3_breaker/portafolio/Prueba-trademate/data.csv')
 
     closes = data['Closes']
     y = np.zeros(len(closes))
@@ -33,17 +47,14 @@ def preprocessing():
 
     return X_train, X_test, y_train, y_test
 
+#Model performance
 
-def search_best(X_train, y_train):
-    
-    svm_clf = LinearSVC(dual='auto')
+def best_score():
 
-    params = dict(C=np.linspace(0,1,10))
+    X_train, X_test, y_train, y_test = preprocessing()
 
-    grid_search = GridSearchCV(svm_clf, params, cv=3, scoring='accuracy')
-    grid_search.fit(X_train, y_train)
-    best_estimator = grid_search.best_estimator_
+    model = training_model(X_train, y_train)
 
-    return best_estimator
+    print(model.score(X_test, y_test))
 
-
+best_score()
