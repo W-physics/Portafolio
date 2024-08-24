@@ -45,12 +45,12 @@ def execute_order(close, high, low):
 
         order = model.predict(X_predict)
 
-        if order == 0: 
+        if order == 1: 
             price = close - 50
             make_order('SELL', str(price))
             print(f'Sold at : {price}')
         else:
-            price = close + 50
+            price = close + 50  
             make_order('BUY', str(price))
             print(f'Bought at : {price}')
 
